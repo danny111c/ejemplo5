@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
+
 import { FaFacebook, FaInstagram, FaLinkedin, FaBehance, FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/fa';
 
 interface ContactFormProps {
@@ -14,7 +15,8 @@ export default function ContactForm({ id }: ContactFormProps) {
     message: '',
   });
 
-  const handleChange = (e) => {
+  // Corregir: Añadir tipo al evento
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -101,7 +103,7 @@ export default function ContactForm({ id }: ContactFormProps) {
                 name="message"
                 placeholder="Tu mensaje"
                 className="w-full p-3 mb-4 rounded-lg border border-gray-300"
-                rows="4"
+                rows={4}
                 value={formData.message}
                 onChange={handleChange}
                 required
