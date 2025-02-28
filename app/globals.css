@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary-color: 76 175 80;        /* #4CAF50 */
+    --primary-dark: 56 142 60;         /* #388E3C */
+    --primary-light: 200 230 201;      /* #C8E6C9 */
+    --secondary-color: 52 58 64;       /* #343A40 */
+    --text-color: 33 37 41;            /* #212529 */
+    --light-text: 248 249 250;         /* #f8f9fa */
+    --light-gray: 233 236 239;         /* #e9ecef */
+    --medium-gray: 173 181 189;        /* #adb5bd */
+    --dark-bg: 35 37 38;               /* #232526 */
+    --off-white: 249 249 249;          /* Nuevo color: un blanco más oscuro (gris claro) */
+
+    --primary-color-hex: #55e75a;
+    --primary-light-hex: #d2dfd3;
+
+    --transition: transform 0.2s ease-in-out, border-radius 0.8s ease-in-out, background 0.8s ease-in-out, color 0.8s ease-in-out;
+  }
+
+  body {
+    color: rgb(var(--text-color));
+    font-family: var(--font-montserrat), sans-serif;
+  }
+}
+
+@layer components {
+
+  .service-card {
+    border: none; /* Elimina el borde sólido */
+    border-radius: 25px; /* Mantiene el redondeado */
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Sombra para destacar la tarjeta */
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .service-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); /* Sombra más pronunciada en hover */
+  }
+  
+  
+  .service-icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgb(var(--primary-light));
+    color: rgb(var(--primary-color));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;
+    position: relative;
+    transition: var(--transition);
+  }
+
+  .group:hover .service-icon {
+    transform: rotate(15deg) scale(1.1);
+    background: linear-gradient(135deg, rgb(var(--primary-color)), rgb(var(--primary-dark)));
+    color: white;
+    border-radius: 50%;
+  }
+}
+
+.image-frame {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  aspect-ratio: 3 / 4;
+  background: linear-gradient(180deg, var(--primary-light), var(--primary-color));
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.1), -20px -20px 60px rgba(255, 255, 255, 0.8);
+  transform: rotate(-3deg);
+}
+
+@layer components {
+  .circle-outer {
+    width: 1100px; /* Ajusta el tamaño del círculo exterior */
+    height: 1100px;
+    border-radius: 50%;
+    border: 2px solid rgb(var(--primary-light)); /* Borde fino */
+    opacity: 0.1;
+    position: absolute;
+  }
+
+  .circle-inner {
+    width: 900px; /* Ajusta el tamaño del círculo interior */
+    height: 900px;
+    border-radius: 50%;
+    border: 2px solid rgb(var(--primary-light)); /* Borde fino */
+    opacity: 0.1;
+    position: absolute;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
