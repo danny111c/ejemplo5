@@ -1,5 +1,5 @@
-import Particles from './Particles'
 import Image from 'next/image'
+import ClientParticles from './ClientParticles'
 
 interface HeroProps {
   id?: string;
@@ -8,9 +8,8 @@ interface HeroProps {
 export default function Hero({ id }: HeroProps) {
   return (
     <section id={id} className="min-h-screen relative overflow-hidden">
-      {/* Fondo y partículas */}
       <div className="absolute inset-0 bg-gray-900" />
-      <Particles />
+      <ClientParticles />
       
       <div className="container mx-auto px-4 h-screen flex items-center relative z-10">
         {/* Contenido izquierdo */}

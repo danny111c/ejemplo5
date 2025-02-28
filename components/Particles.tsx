@@ -9,14 +9,18 @@ type Particle = {
   color: string
   velocity: { x: number; y: number }
   alpha: number
-  draw: () => void
+  draw: (ctx: CanvasRenderingContext2D) => void
   update: () => void
 }
 
 export default function Particles() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const initialized = useRef(false)
 
   useEffect(() => {
+    if (initialized.current || typeof window === 'undefined') return
+    initialized.current = true
+
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -30,18 +34,19 @@ export default function Particles() {
     const maxRadius = 4
     const minRadius = 1
 
-    // Clase de partícula (renombrada a ParticleClass)
-    class ParticleClass {
+    class ParticleClass implements Particle {
       x: number
       y: number
       radius: number
       color: string
       velocity: { x: number; y: number }
       alpha: number
+      private canvas: HTMLCanvasElement
 
-      constructor() {
-        this.x = Math.random() * canvas.width
-        this.y = Math.random() * (canvas.height * 0.8) + (canvas.height * 0.2)
+      constructor(canvas: HTMLCanvasElement) {
+        this.canvas = canvas
+        this.x = Math.random() * this.canvas.width
+        this.y = Math.random() * (this.canvas.height * 0.8) + (this.canvas.height * 0.2)
         this.radius = Math.random() * (maxRadius - minRadius) + minRadius
         this.color = colors[Math.floor(Math.random() * colors.length)]
         this.velocity = {
@@ -51,7 +56,7 @@ export default function Particles() {
         this.alpha = Math.random() * 0.5 + 0.3
       }
 
-      draw() {
+      draw(ctx: CanvasRenderingContext2D) {
         ctx.save()
         ctx.globalAlpha = this.alpha
         ctx.beginPath()
@@ -65,54 +70,47 @@ export default function Particles() {
         this.x += this.velocity.x
         this.y += this.velocity.y
 
-        // Rebote en los bordes
-        if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
+        if (this.x - this.radius < 0 || this.x + this.radius > this.canvas.width) {
           this.velocity.x = -this.velocity.x
         }
-        if (this.y - this.radius < canvas.height * 0.2 || this.y + this.radius > canvas.height) {
+        if (this.y - this.radius < this.canvas.height * 0.2 || this.y + this.radius > this.canvas.height) {
           this.velocity.y = -this.velocity.y
         }
 
-        // Desvanecimiento aleatorio
         if (Math.random() < 0.005) {
           this.alpha = Math.random() * 0.5 + 0.3
         }
       }
     }
 
-    // Inicialización de partículas
-    function init() {
+    const init = () => {
       particles.length = 0
       for (let i = 0; i < particleCount; i++) {
-        particles.push(new ParticleClass())
+        particles.push(new ParticleClass(canvas))
       }
     }
 
-    // Animación
-    function animate() {
-      if (!ctx) return
+    const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       particles.forEach(particle => {
         particle.update()
-        particle.draw()
+        particle.draw(ctx)
       })
       requestAnimationFrame(animate)
     }
 
-    // Manejo de redimensionamiento
-    function resize() {
+    const handleResize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
       init()
     }
 
-    // Configuración inicial
-    resize()
-    window.addEventListener('resize', resize)
+    handleResize()
+    window.addEventListener('resize', handleResize)
     animate()
 
     return () => {
-      window.removeEventListener('resize', resize)
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
 
@@ -120,7 +118,12 @@ export default function Particles() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 z-0"
-      style={{ pointerEvents: 'none' }}
+      style={{ 
+        pointerEvents: 'none',
+        width: '100%',
+        height: '100%'
+      }}
+      suppressHydrationWarning
     />
   )
 }
