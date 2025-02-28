@@ -28,6 +28,7 @@ export default function Header() {
 
           {/* Menú - Derecha */}
           <div className="flex items-center gap-6">
+            <NavLink href="#inicio" currentPath={pathname}>Inicio</NavLink>
             <NavLink href="#servicios" currentPath={pathname}>Servicios</NavLink>
             <NavLink href="#historia" currentPath={pathname}>Nuestra Historia</NavLink>
             <NavLink href="#portfolio" currentPath={pathname}>Portfolio</NavLink>
@@ -47,12 +48,28 @@ function NavLink({ href, currentPath, children }: {
   currentPath?: string
   children: React.ReactNode 
 }) {
-  // Compara si el "href" del enlace corresponde con la sección actual
   const isActive = currentPath?.includes(href)
+
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault()
+    const targetId = href.replace(/.*#/, '')
+    const targetElement = document.getElementById(targetId)
+    
+    if (targetElement) {
+      const headerHeight = document.querySelector('header')?.clientHeight || 80
+      const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY
+      
+      window.scrollTo({
+        top: elementPosition - headerHeight,
+        behavior: 'smooth'
+      })
+    }
+  }
 
   return (
     <Link
       href={href}
+      onClick={handleScroll}
       className={`relative font-medium text-secondary hover:text-primary transition-colors ${
         isActive ? 'font-semibold text-primary' : ''
       }`}

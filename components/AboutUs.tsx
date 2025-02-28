@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
 
-export default function AboutUs() {
+interface AboutUsProps {
+  id?: string;
+}
+
+export default function AboutUs({ id }: AboutUsProps) {
   const textRef = useRef<HTMLDivElement>(null);
   const [textHeight, setTextHeight] = useState(0);
 
@@ -14,7 +18,7 @@ export default function AboutUs() {
   }, []);
 
   return (
-    <section id="historia" className="py-16 bg-white relative z-10 mb-32">
+    <section id={id} className="py-16 bg-white relative z-10 mb-3">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-start gap-16 md:gap-20">
         
         {/* Texto - Izquierda (Ancho corregido) */}

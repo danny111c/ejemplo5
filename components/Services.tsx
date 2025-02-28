@@ -3,7 +3,11 @@
 import { useEffect, useState } from 'react'
 import { FiTrendingUp, FiImage, FiPenTool, FiEdit } from 'react-icons/fi'
 
-export default function Services() {
+interface ServicesProps {
+  id?: string;
+}
+
+export default function Services({ id }: ServicesProps) {
   const services = [
     {
       icon: <FiTrendingUp className="w-8 h-8" />,
@@ -41,7 +45,7 @@ export default function Services() {
 
   return (
     
-    <section id="servicios" className="py-16 bg-white relative overflow-hidden">
+    <section id={id} className="py-16 bg-white relative overflow-hidden">
       {/* Fondo con gradiente radial */}
       <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(76,175,80,0.2)_15%,transparent_70%)] pointer-events-none"></div>
 
@@ -60,10 +64,12 @@ export default function Services() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-secondary mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-secondary mb-4">
           Nuestros Servicios
         </h2>
-
+        <p className="text-lg text-center text-gray-600 mb-8">
+  Soluciones creativas para impulsar tu marca
+</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <div 

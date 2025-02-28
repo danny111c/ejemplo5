@@ -13,7 +13,7 @@ export default function Home() {
       <Header />
       <Hero id="inicio" />
       <Services id="servicios" />
-      <TrustIndicators id="indicadores" />
+      <TrustIndicators />
       <AboutUs id="historia" />
       <Portfolio id="portfolio" />
       <ContactForm id="contacto" />

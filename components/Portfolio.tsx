@@ -3,6 +3,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
+interface PortfolioProps {
+  id?: string;
+}
+
 // Datos de ejemplo para los proyectos
 const projects = [
   { id: 1, category: 'branding', title: 'Rediseño de Marca', description: 'Branding corporativo', image: '/images/img1.jpg' },
@@ -13,14 +17,14 @@ const projects = [
   { id: 6, category: 'grafico', title: 'Campaña Publicitaria', description: 'Publicidad impresa', image: '/images/img3.jpg' },
 ];
 
-export default function Portfolio() {
+export default function Portfolio({ id }: PortfolioProps) {
   const [filter, setFilter] = useState('all');
 
   // Filtrar proyectos según la categoría seleccionada
   const filteredProjects = filter === 'all' ? projects : projects.filter(p => p.category === filter);
 
   return (
-<section id="portfolio" className="py-16 relative z-0" style={{ 
+<section id={id} className="py-16 relative z-0" style={{ 
   background: 'linear-gradient(135deg, #232526, #414345)',
   zIndex: 0 // Añade esto para sincronizar con el contexto
 }}>      {/* Círculos concéntricos */}
@@ -77,9 +81,16 @@ export default function Portfolio() {
                   Ver Proyecto
                 </button>
               </div>
+              
             </div>
+            
           ))}
         </div>
+        <div className="flex justify-center mt-10">
+  <button className="px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 hover:bg-green-700">
+    Ver Portafolio Completo
+  </button>
+</div>
       </div>
     </section>
   );

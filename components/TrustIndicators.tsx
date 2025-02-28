@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 export default function TrustIndicators() {
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -20,39 +20,19 @@ export default function TrustIndicators() {
     awards: 15
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          animateNumbers();
-        }
-      },
-      { threshold: 0.5 } // Se activa cuando el 50% de la sección es visible
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, [hasAnimated]);
-
-  function animateNumbers() {
-    const duration = 300; // 1 segundo
-    const frames = 60; // 60 FPS
-    const intervalTime = duration / frames; // Tiempo entre frames
+  // 1. Corregir: Mover animateNumbers a un useCallback y añadir como dependencia
+  const animateNumbers = useCallback(() => {
+    const duration = 300;
+    const frames = 60;
+    const intervalTime = duration / frames;
     let currentFrame = 0;
 
     const interval = setInterval(() => {
       currentFrame++;
       const progress = currentFrame / frames;
 
-      setValues((prevValues) => ({
+      // 2. Corregir: Eliminar 'prevValues' no utilizado
+      setValues(() => ({
         clients: Math.round(finalValues.clients * progress),
         projects: Math.round(finalValues.projects * progress),
         experience: Math.round(finalValues.experience * progress),
@@ -61,10 +41,35 @@ export default function TrustIndicators() {
 
       if (currentFrame >= frames) {
         clearInterval(interval);
-        setValues(finalValues); // Asegurar que termine con los valores exactos
+        setValues(finalValues);
       }
     }, intervalTime);
-  }
+  }, [finalValues]); // Añadir dependencias necesarias
+
+  useEffect(() => {
+    // 3. Corregir: Guardar referencia actual para cleanup
+    const currentSection = sectionRef.current;
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          animateNumbers();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (currentSection) {
+      observer.observe(currentSection);
+    }
+
+    return () => {
+      if (currentSection) {
+        observer.unobserve(currentSection);
+      }
+    };
+  }, [hasAnimated, animateNumbers]); // 4. Añadir animateNumbers como dependencia
 
   return (
     <section ref={sectionRef} className="bg-primary py-16">

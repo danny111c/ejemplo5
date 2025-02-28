@@ -1,5 +1,6 @@
 import { FaFacebook, FaInstagram, FaLinkedin, FaBehance, FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/fa'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Footer() {
   return (
@@ -17,8 +18,8 @@ export default function Footer() {
               src="/images/logo.svg"
               alt="Logo ARTGU"
               className="w-32 mb-4"
-              width={128}  // Ajusta el valor según el tamaño de tu imagen
-              height={128} // Ajusta el valor según el tamaño de tu imagen
+              width={128}
+              height={128}
             />
           </div>
 
@@ -28,19 +29,19 @@ export default function Footer() {
             <div className="w-20 h-0.5 bg-primary mb-4" />
             <ul className="text-white text-lg">
               <li>
-                <a href="/" className="block mb-2 hover:underline">Inicio</a>
+                <Link href="/" className="block mb-2 hover:underline">Inicio</Link>
               </li>
               <li>
-                <a href="/services" className="block mb-2 hover:underline">Servicios</a>
+                <Link href="/services" className="block mb-2 hover:underline">Servicios</Link>
               </li>
               <li>
-                <a href="/about" className="block mb-2 hover:underline">Nuestra Historia</a>
+                <Link href="/about" className="block mb-2 hover:underline">Nuestra Historia</Link>
               </li>
               <li>
-                <a href="/portfolio" className="block mb-2 hover:underline">Portfolio</a>
+                <Link href="/portfolio" className="block mb-2 hover:underline">Portfolio</Link>
               </li>
               <li>
-                <a href="/contact" className="block mb-2 hover:underline">Contacto</a>
+                <Link href="/contact" className="block mb-2 hover:underline">Contacto</Link>
               </li>
             </ul>
           </div>
@@ -69,6 +70,8 @@ export default function Footer() {
                 <a
                   key={index}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 flex justify-center items-center bg-white text-gray-600 rounded-full hover:bg-primary hover:text-white transform hover:translate-y-[-4px] transition-all duration-300"
                 >
                   {social.icon}

@@ -3,7 +3,11 @@
 import { useState } from 'react';
 import { FaFacebook, FaInstagram, FaLinkedin, FaBehance, FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/fa';
 
-export default function ContactForm() {
+interface ContactFormProps {
+  id?: string;
+}
+
+export default function ContactForm({ id }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,7 +22,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contacto"
+    <section id={id}
       className="py-16"
       style={{
         background: 'radial-gradient(circle at bottom left, rgba(76, 175, 80, 0.2) 0%, transparent 70%)',

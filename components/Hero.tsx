@@ -1,9 +1,13 @@
 import Particles from './Particles'
-import Image from 'next/image' // Importa el componente Image
+import Image from 'next/image'
 
-export default function Hero() {
+interface HeroProps {
+  id?: string;
+}
+
+export default function Hero({ id }: HeroProps) {
   return (
-    <section className="min-h-screen relative overflow-hidden">
+    <section id={id} className="min-h-screen relative overflow-hidden">
       {/* Fondo y partículas */}
       <div className="absolute inset-0 bg-gray-900" />
       <Particles />
@@ -13,7 +17,7 @@ export default function Hero() {
         <div className="flex-1 max-w-2xl text-white">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
             <span className="block mb-4">Marketing Digital que</span>
-            <span className="text-primary">Genera Resultados</span> {/* Cambiado a text-primary */}
+            <span className="text-primary">Genera Resultados</span>
           </h1>
           
           <p className="text-xl mb-8">
@@ -22,7 +26,7 @@ export default function Hero() {
 
           <a 
             href="https://wa.me/5491124619867"
-            className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors" // Cambiado a bg-primary y hover:bg-primary-dark
+            className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors"
           >
             <span className="mr-2">📱</span>
             Contactar por WhatsApp
@@ -36,8 +40,8 @@ export default function Hero() {
               src="/images/hero-person.png"
               alt="Marketing Digital"
               className="absolute bottom-0 right-0 h-full w-auto object-contain"
-              width={900}  // Ajusta el valor según el tamaño de tu imagen
-              height={1000} // Ajusta el valor según el tamaño de tu imagen
+              width={900}
+              height={1000}
               style={{ 
                 maxWidth: '90%',
                 transform: 'translateY(3px)'
